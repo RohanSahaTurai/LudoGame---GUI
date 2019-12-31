@@ -241,7 +241,7 @@ MOVESTATUS RollDiceProc (uint8_t* roll, int8_t& rollNb, const player_t* player)
                      event.key.code == sf::Keyboard::Space)
                 getInput = false;
 
-            /*DEBUG */
+            /*DEBUG
             else if (event.type == sf::Event::KeyPressed)
             {
                 if (event.key.code >= sf::Keyboard::Num1 &&
@@ -251,9 +251,10 @@ MOVESTATUS RollDiceProc (uint8_t* roll, int8_t& rollNb, const player_t* player)
                     getInput = false;
                 }
             }
+            */
         }
 
-        //roll[rollNb] = Game_RollDice();
+        roll[rollNb] = Game_RollDice();
 
         printf("Dice Score = %d", roll[rollNb]);
 
@@ -384,7 +385,6 @@ int main()
             RndrWindow.display();
 
             isSelectionValid = false;
-            move == GAME_ENDED;
 
             while (RndrWindow.waitEvent(event) && !isSelectionValid)
             {
