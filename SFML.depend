@@ -451,7 +451,11 @@
 	<windows.h>
 	<SFML/Graphics.hpp>
 
+<<<<<<< HEAD
 1577821706 source:c:\users\asus-pc\desktop\ludogame-gui\main.cpp
+=======
+1577821613 source:c:\users\asus-pc\desktop\ludogame-gui\main.cpp
+>>>>>>> develop
 	"Player.hpp"
 	"Game.hpp"
 	"SFML/Graphics.hpp"
