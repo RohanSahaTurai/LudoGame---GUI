@@ -72,70 +72,75 @@ void UpdateTokenDisplay (player_t* players, uint8_t currPLayerNb, uint8_t currTo
 
     // Display procedure inside the home box
     if (position == 1  || position == 14 || position == 27 ||
-            position == 40 || position == 100)
+        position == 40 || position == 100)
     {
-        int8_t dx = 0, dy = 0;
+      int8_t dx = 0, dy = 0;
 
-        for (uint8_t i = 0; i < NbPlayerInGame; i++)
-            for (uint8_t j = 0; j < TOKEN_NUM; j++)
-            {
-                if (players[i].token[j].tokenPiece.getPosition() == currToken->tokenPiece.getPosition() &&
-                    !(i == currPLayerNb && j == currTokenNb))
-                {
-                    //translate rightwards
-                    if (position == 100)
-                        dx += 15;
-                    else
-                        dx += 30;
+      currToken->tokenPiece.setPosition(currPosToCoord.X + dx,
+                                        currPosToCoord.Y + dy);
 
-                    // 30 x 4 = 120
-                    if (dx == 150 || dx == 75)
-                    {
-                        if (position == 100)
-                            dx = 15;
-                        else
-                            dx = 30;
+      for (uint8_t i = 0; i < NbPlayerInGame; i++)
+      {
+        for (uint8_t j = 0; j < TOKEN_NUM; j++)
+        {
+          if (players[i].token[j].tokenPiece.getPosition() == currToken->tokenPiece.getPosition() &&
+              !(i == currPLayerNb && j == currTokenNb))
+          {
+              //translate rightwards
+              if (position == 100)
+                dx += 15;
+              else
+                dx += 30;
 
-                        //translate downwards
-                        if (position == 100)
-                            dy += 15;
-                        else
-                            dy += 30;
-                    }
-                }
-            }
+              // 30 x 4 = 120
+              if (dx == 150 || dx == 75)
+              {
+                if (position == 100)
+                  dx = 15;
+                else
+                  dx = 30;
 
-        currToken->tokenPiece.setPosition(currPosToCoord.X + dx,
-                                          currPosToCoord.Y + dy);
+                //translate downwards
+                if (position == 100)
+                  dy += 15;
+                else
+                  dy += 30;
+              }
+
+             currToken->tokenPiece.setPosition(currPosToCoord.X + dx,
+                                               currPosToCoord.Y + dy);
+          }
+        }
+      }
     }
 
     else
     {
-        uint8_t count = 1;
-        sf::Vector2f coordPos;
+      uint8_t count = 1;
+      sf::Vector2f coordPos;
 
-        // Check if one or more tokens of the same color are placed in that cell
-        for (uint8_t i = 0; i < TOKEN_NUM; i++)
+      // Check if one or more tokens of the same color are placed in that cell
+      for (uint8_t i = 0; i < TOKEN_NUM; i++)
+      {
+        if (currPlayer->token[i].position == position && i != currTokenNb)
         {
-            if (currPlayer->token[i].position == position && i != currTokenNb)
-            {
-                coordPos = currPlayer->token[i].tokenPiece.getPosition();
+          coordPos = currPlayer->token[i].tokenPiece.getPosition();
 
-                if (coordPos.x == currPosToCoord.X &&
-                        coordPos.y == currPosToCoord.Y )
-                    currPlayer->token[i].tokenPiece.setPosition(currPosToCoord.X - 5,
-                            currPosToCoord.Y);
+          if (coordPos.x == currPosToCoord.X &&
+              coordPos.y == currPosToCoord.Y )
+              currPlayer->token[i].tokenPiece.setPosition(currPosToCoord.X - 5,
+                                                          currPosToCoord.Y);
 
-                else if (coordPos.x != currPosToCoord.X &&
-                         coordPos.y == currPosToCoord.Y )
-                    currPlayer->token[i].tokenPiece.setPosition(coordPos.x,
-                            coordPos.y - 5);
-                count++;
-            }
+          else if (coordPos.x != currPosToCoord.X &&
+                   coordPos.y == currPosToCoord.Y )
+              currPlayer->token[i].tokenPiece.setPosition(coordPos.x,
+                                                          coordPos.y - 5);
+          count++;
         }
+      }
 
-        switch (count)
-        {
+      switch (count)
+      {
         case 1:
             currToken->tokenPiece.setPosition(currPosToCoord.X,
                                               currPosToCoord.Y);
@@ -155,7 +160,7 @@ void UpdateTokenDisplay (player_t* players, uint8_t currPLayerNb, uint8_t currTo
             currToken->tokenPiece.setPosition(currPosToCoord.X + 10,
                                               currPosToCoord.Y + 5);
             break;
-        }
+      }
     }
 
     // Update the frame
@@ -241,7 +246,7 @@ MOVESTATUS RollDiceProc (uint8_t* roll, int8_t& rollNb, const player_t* player)
                      event.key.code == sf::Keyboard::Space)
                 getInput = false;
 
-            /*DEBUG
+            /*DEBUG*/
             else if (event.type == sf::Event::KeyPressed)
             {
                 if (event.key.code >= sf::Keyboard::Num1 &&
@@ -250,11 +255,11 @@ MOVESTATUS RollDiceProc (uint8_t* roll, int8_t& rollNb, const player_t* player)
                     roll[rollNb] = event.key.code - sf::Keyboard::Num1 + 1;
                     getInput = false;
                 }
-            }*/
+            }
 
         }
 
-        roll[rollNb] = Game_RollDice();
+        //roll[rollNb] = Game_RollDice();
 
         printf("Dice Score = %d", roll[rollNb]);
 
@@ -495,7 +500,7 @@ int main()
                     }
 
                     UpdateWindowDisplay(player);
-                    Sleep(1500);
+                    Sleep(1000);
 
                     printf("\n");
 
